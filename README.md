@@ -1,50 +1,93 @@
 # 🛠️ Plataforma de Proyectos Colaborativos
 
-Este proyecto es una plataforma web que permite a los usuarios crear proyectos, invitar colaboradores y gestionar tareas, todo desde un entorno web moderno con React y Flask.
+Este proyecto es una plataforma web que permite a los usuarios registrarse, iniciar sesión, crear proyectos, invitar colaboradores y gestionar tareas, todo desde un entorno moderno construido con **React** y **Flask**.
+
+---
 
 ## 🚀 Tecnologías utilizadas
 
-### Backend
+### 🔙 Backend
 - Python 3
 - Flask
-- Flask-SQLAlchemy
-- Flask-JWT-Extended
-- SQLite
+- SQLAlchemy (ORM)
+- Flask-JWT-Extended (autenticación con JWT)
+- python-dotenv (variables de entorno)
+- SQLite (base de datos por defecto)
 
-### Frontend
+### 🔜 Frontend
 - React
 - Create React App
+- React Router DOM (en fases futuras)
+- Fetch / JWT para comunicación con el backend
 
+---
 
 ## ⚙️ Instalación
 
-### 1. Clona el repositorio
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/CamponD/DanielCP-PRACTICA.git
 cd DanielCP-PRACTICA
 ```
 
-### 2. Configura el entorno del backend
+### 2. Configurar el entorno del backend
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # o .\venv\Scripts\activate en Windows
+source venv/bin/activate      # Linux/macOS
+# o
+.\venv\Scripts\activate       # Windows
+
 pip install -r requirements.txt
 ```
 
-### 3. Configura el frontend
+### 3. Crear el archivo `.env` en la raíz del proyecto
+
+```env
+JWT_SECRET_KEY=tu_clave_secreta
+DATABASE_URL=sqlite:///database.db
+DEBUG=True
+```
+
+### 4. Ejecutar el backend
 
 ```bash
+python run.py
+```
+
+---
+
+### 5. Configurar y ejecutar el frontend
+
+```bash
+cd frontend
 npm install
 npm start
 ```
 
-## 📌 Estado del proyecto
-🟠 En desarrollo 📅 Última actualización: marzo 2025
+---
 
+## ✨ Características actuales
+
+- Registro e inicio de sesión con JWT
+- Contraseñas seguras con hash
+- Gestión de usuarios con `username` como identificador
+- Rutas organizadas con Blueprints
+- Uso de variables de entorno con `.env`
+- Arquitectura escalable (estructura modular con `create_app()`)
+
+---
+
+## 📌 Estado del proyecto
+
+🟠 En desarrollo  
+📅 Última actualización: **marzo 2025**  
+🎯 Sprint actual: **Sistema de autenticación (backend + frontend)**
+
+---
 
 ## ✍️ Autor
 
-Daniel Campón Perdigones  
+**Daniel Campón Perdigones**  
 GitHub: [@CamponD](https://github.com/CamponD)
