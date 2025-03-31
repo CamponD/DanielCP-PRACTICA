@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 # Cargar variables de entorno
 load_dotenv()
@@ -13,6 +14,8 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
+
+    CORS(app)
 
     # Configuración
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -26,8 +29,8 @@ def create_app():
 
     # Importar modelos y rutas
     from app import models
-    from app.routes import main
-    app.register_blueprint(main)
+    #from app.routes import main
+    #app.register_blueprint(main)
     from app.auth_routes import auth
     app.register_blueprint(auth)
 
