@@ -1,6 +1,5 @@
-# 🛠️ Plataforma de Proyectos Colaborativos
-
-Este proyecto es una plataforma web que permite a los usuarios registrarse, iniciar sesión, crear proyectos, invitar colaboradores y gestionar tareas, todo desde un entorno moderno construido con **React** y **Flask**.
+# 🚀 TeamTrack - Plataforma de gestión de tareas y colaboración en equipo
+Una app fullstack desarrollada con Flask y React para crear proyectos, invitar colaboradores y gestionar tareas fácilmente.
 
 ---
 
@@ -9,16 +8,16 @@ Este proyecto es una plataforma web que permite a los usuarios registrarse, inic
 ### 🔙 Backend
 - Python 3
 - Flask
-- SQLAlchemy (ORM)
-- Flask-JWT-Extended (autenticación con JWT)
-- python-dotenv (variables de entorno)
-- SQLite (base de datos por defecto)
+- Flask-SQLAlchemy
+- Flask-JWT-Extended
+- Python-dotenv
+- SQLite
 
 ### 🔜 Frontend
 - React
-- Create React App
-- React Router DOM (en fases futuras)
-- Fetch / JWT para comunicación con el backend
+- Vite
+- Tailwind CSS
+- React Router DOM
 
 ---
 
@@ -27,8 +26,8 @@ Este proyecto es una plataforma web que permite a los usuarios registrarse, inic
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/CamponD/DanielCP-PRACTICA.git
-cd DanielCP-PRACTICA
+git clone https://github.com/CamponD/TeamTrack.git
+cd TeamTrack
 ```
 
 ### 2. Configurar el entorno del backend
