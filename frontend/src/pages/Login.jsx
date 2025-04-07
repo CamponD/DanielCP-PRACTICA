@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import PageWrapper from "../components/PageWrapper"
 
 function Login() {
+    const navigate = useNavigate()
     const [form, setForm] = useState({
         username: "",
         password: "",
@@ -17,7 +19,7 @@ function Login() {
         e.preventDefault()
 
         try {
-            const res = await fetch("http://127.0.0.1:5000/login", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
@@ -30,6 +32,7 @@ function Login() {
                 localStorage.setItem("token", data.access_token)
                 localStorage.setItem("username", data.username)
                 setMessage("inicio de sesión exitoso.")
+                navigate("/dashboard")
             } else if (res.status === 401) {
                 setMessage(data.error || "Usuario o Contraseña incorrectos.")
             } else {

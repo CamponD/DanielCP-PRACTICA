@@ -23,6 +23,7 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({"msg": "Ese email ya está registrado"}), 409
 
+    # Encriptar password
     hashed_pw = generate_password_hash(password)
     new_user = User(username=username, email=email, password=hashed_pw)
     db.session.add(new_user)
@@ -59,7 +60,6 @@ def get_user():
 
     # Buscar al usuario en la base de datos
     user = User.query.get(current_user_id)
-    print("User", user)
     if not user:
         return jsonify({"error": "Usuario no encontrado"}), 404
 

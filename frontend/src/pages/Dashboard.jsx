@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 
-function User() {
+function Dashboard() {
     const [user, setUser] = useState(null)
     const [message, setMessage] = useState("")
   
@@ -13,7 +13,7 @@ function User() {
         return
       }
   
-      fetch("http://127.0.0.1:5000/me", {
+      fetch(`${import.meta.env.VITE_API_URL}/dashboard`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,4 +44,4 @@ function User() {
     )
   }
   
-  export default User
+  export default Dashboard

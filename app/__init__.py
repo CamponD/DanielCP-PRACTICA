@@ -33,6 +33,8 @@ def create_app():
     #app.register_blueprint(main)
     from app.auth_routes import auth
     app.register_blueprint(auth)
+    from app.dashboard import dashboard
+    app.register_blueprint(dashboard)
 
 
     return app
