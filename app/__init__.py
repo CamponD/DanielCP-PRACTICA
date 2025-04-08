@@ -15,7 +15,7 @@ jwt = JWTManager()
 def create_app():
     app = Flask(__name__)
 
-    CORS(app)
+    CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
     # Configuración
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -35,6 +35,7 @@ def create_app():
     app.register_blueprint(auth)
     from app.dashboard import dashboard
     app.register_blueprint(dashboard)
-
+    from app.project_routes import project_bp
+    app.register_blueprint(project_bp)
 
     return app

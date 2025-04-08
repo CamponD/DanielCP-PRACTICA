@@ -17,8 +17,4 @@ def get_dashboard():
         return jsonify({"error": "Usuario no encontrado"}), 404
 
     # Devolver los datos del usuario
-    return jsonify({
-        "id": user.id,
-        "username": user.username,
-        "email": user.email
-    }), 200
+    return jsonify(user.to_dict()), 200

@@ -12,6 +12,13 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email
+        }
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -25,6 +32,12 @@ class Project(db.Model):
     def __repr__(self):
         return f'<Project {self.name}>'
     
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
 class Collaborator(db.Model):
     __tablename__ = 'collaborators'
 
@@ -39,6 +52,14 @@ class Collaborator(db.Model):
     def __repr__(self):
         return f'<Collaborator User:{self.user_id} Project:{self.project_id} Role:{self.role}>'
     
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "project_id": self.project_id,
+            "role": self.role
+        }
+
 class Task(db.Model):
     __tablename__ = 'tasks'
 
@@ -53,3 +74,13 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"<Task {self.title} (Status: {self.status})>"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "status": self.status,
+            "deadline": self.deadline.isoformat() if self.deadline else None,
+            "project_id": self.project_id
+        }

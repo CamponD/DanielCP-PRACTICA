@@ -50,22 +50,3 @@ def login():
     # Generar el token JWT
     access_token = create_access_token(identity=str(user.id))
     return jsonify({"access_token": access_token, "username": user.username}), 200
-
-
-@auth.route('/me', methods=['GET'])
-@jwt_required()
-def get_user():
-    # Obtener el ID del usuario autenticado desde el token
-    current_user_id = int(get_jwt_identity())
-
-    # Buscar al usuario en la base de datos
-    user = User.query.get(current_user_id)
-    if not user:
-        return jsonify({"error": "Usuario no encontrado"}), 404
-
-    # Devolver los datos del usuario
-    return jsonify({
-        "id": user.id,
-        "username": user.username,
-        "email": user.email
-    }), 200
