@@ -44,7 +44,7 @@ function Dashboard() {
             ))}
           </ul>
         )}
-        <form className="mb-6 flex flex-col md:flex-row gap-4 pt-4 justify-center"
+        <form className="mb-6 flex flex-col md:flex-row gap-4 pt-4 justify-center max-w-xs md:max-w-xl mx-auto"
           onSubmit={(e) => {
             e.preventDefault()
 
@@ -70,7 +70,7 @@ function Dashboard() {
             placeholder="Nombre del proyecto"
             value={newProjectName}
             onChange={(e) => setNewProjectName(e.target.value)}
-            className="border px-4 py-2 rounded md:w-auto"
+            className="border px-4 py-2 rounded"
             required
           />
           <button

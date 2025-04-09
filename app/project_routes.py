@@ -10,7 +10,7 @@ project_bp = Blueprint('project_bp', __name__)
 @jwt_required()
 def get_user_projects():
     user_id = int(get_jwt_identity())
-    projects = Project.query.join(Collaborator).filter(Collaborator.user_id == user_id).all()
+    projects = db.session.query(Project, Collaborator.role).join(Collaborator).filter(Collaborator.user_id == user_id).all()
 
     results = [
         {**project.to_dict(), "role": role}
