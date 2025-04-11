@@ -1,26 +1,39 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import PageWrapper from "../components/PageWrapper"
 
 function Dashboard() {
   const [projects, setProjects] = useState([])
   const [newProjectName, setNewProjectName] = useState("")
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const token = localStorage.getItem("token")
+
+    // Si no hay token, redirigir
+    if (!token || token.split(".").length !== 3) {
+      navigate("/")
+      return
+    }
 
     fetch(`${import.meta.env.VITE_API_URL}/projects`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(res => res.json())
-      .then(data => {
+      .then(async (res) => {
+        if (res.status === 401 || res.status === 422) {
+          localStorage.removeItem("token")
+          navigate("/")
+          return
+        }
+
+        const data = await res.json()
         setProjects(data)
       })
-      .catch(error => {
-        console.error("Error al obtener proyectos:", error)
-      })
-  }, [])
+      .catch(() => navigate("/"))
+  }, [navigate])
 
   return (
     <PageWrapper>
@@ -63,7 +76,7 @@ function Dashboard() {
                 setNewProjectName("")
               })
               .catch((err) => console.error("Error al crear proyecto:", err))
-          }}  
+          }}
         >
           <input
             type="text"
