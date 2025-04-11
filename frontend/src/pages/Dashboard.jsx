@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PageWrapper from "../components/PageWrapper"
+import ProjectItem from "../components/ProjectItem"
 
 function Dashboard() {
   const [projects, setProjects] = useState([])
@@ -45,15 +46,7 @@ function Dashboard() {
         ) : (
           <ul className="space-y-4">
             {projects.map((project) => (
-              <li
-                key={project.id}
-                className="border p-4 rounded shadow bg-white flex justify-between items-center"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold">{project.name}</h3>
-                  <p className="text-sm text-gray-600">Rol: {project.role}</p>
-                </div>
-              </li>
+              <ProjectItem project={project} key={project.id}/>
             ))}
           </ul>
         )}
