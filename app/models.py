@@ -25,6 +25,7 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
 
     collaborators = db.relationship('Collaborator', back_populates='project')
     tasks = db.relationship('Task', back_populates='project', cascade="all, delete-orphan")
@@ -35,7 +36,8 @@ class Project(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "name": self.name
+            "name": self.name,
+            "description": self.description
         }
 
 class Collaborator(db.Model):

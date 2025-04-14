@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import PageWrapper from "../components/PageWrapper"
+import { useAppContext } from "../context/AppContext"
 
 function Login() {
-    const navigate = useNavigate()
+    const { login } = useAppContext()
     const [form, setForm] = useState({
         username: "",
         password: "",
@@ -17,29 +17,10 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const result = await login(form)
 
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            })
-
-            const data = await res.json()
-            console.log("Respuesta del backend:", data);
-
-            if (res.ok) {
-                localStorage.setItem("token", data.access_token)
-                localStorage.setItem("username", data.username)
-                setMessage("inicio de sesión exitoso.")
-                navigate("/dashboard")
-            } else if (res.status === 401) {
-                setMessage(data.error || "Usuario o Contraseña incorrectos.")
-            } else {
-                setMessage(data.error || "Algo salió mal.")
-            }
-        } catch (error) {
-            setMessage("Error al conectar con el servidor.")
+        if (!result.success) {
+            setMessage(result.message)
         }
     }
 
@@ -62,6 +43,7 @@ function Login() {
                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 mt-4 rounded-full" type="submit">Iniciar Sesión</button>
             </form>
             <p className="text-red-500">{message}</p>
+            {message && <p className="text-red-500 mt-4">{message}</p>}
         </PageWrapper>
     )
 
