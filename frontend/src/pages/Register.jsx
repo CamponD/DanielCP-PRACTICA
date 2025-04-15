@@ -1,7 +1,9 @@
 import { useState } from "react"
 import PageWrapper from "../components/PageWrapper"
+import { useAppContext } from "../context/AppContext"
 
 function Register() {
+  const { register } = useAppContext()
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -17,25 +19,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      })
+    const result = await register(form)
 
-      const data = await res.json()
-
-      if (res.ok) {
-        setMessage("Registro exitoso, ahora puedes iniciar sesión.")
-      } else if(res.status === 409){
-        setMessage(data.error || "Usuario o email ya registrado.")
-      } else {
-        setMessage(data.error || "Algo salió mal.")
-      }
-    } catch (error) {
-      setMessage("Error al conectar con el servidor.")
-    }
+        if (!result.success) {
+            setMessage(result.message)
+        }
   }
 
   return (
