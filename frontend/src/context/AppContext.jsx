@@ -52,7 +52,7 @@ export const AppProvider = ({ children }) => {
                 return { success: true }
 
             } else {
-                return { success: false, message: data.error || "Error durante el registro." }
+                return { success: false, message: data.error }
             }
         } catch (err) {
             return { success: false, message: "Error de conexión con el servidor." }
@@ -82,7 +82,7 @@ export const AppProvider = ({ children }) => {
                 navigate("/dashboard")
                 return { success: true }
             } else {
-                return { success: false, message: data.error || "Usuario o contraseña incorrectos." }
+                return { success: false, message: data.error }
             }
         } catch (err) {
             return { success: false, message: "Error de conexión con el servidor." }
@@ -118,8 +118,28 @@ export const AppProvider = ({ children }) => {
         }
     }
 
-    const createProject = async () => {
-        return { success: true }
+    const createProject = async (projectData) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/projects/new`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(projectData),
+            })
+
+            const data = await res.json()
+            if (res.ok) {
+                return { success: true }
+
+            } else {
+                return { success: false, message: data.error }
+            }
+
+        } catch (error) {
+            return { success: false, message: "Error al conectar con el servidor." }
+        }
     }
 
     return (

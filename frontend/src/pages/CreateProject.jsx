@@ -60,7 +60,6 @@ function CreateProject() {
                         Crear proyecto
                     </button>
                 </form>
-
                 {message && <p className="text-red-500 mt-4">{message}</p>}
             </div>
         </PageWrapper>

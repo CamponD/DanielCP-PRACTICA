@@ -15,13 +15,13 @@ def register():
 
     # Validar datos
     if not username or not email or not password:
-        return jsonify({"msg": "Todos los campos son obligatorios"}), 400
+        return jsonify({"error": "Todos los campos son obligatorios"}), 400
 
     if User.query.filter_by(username=username).first():
-        return jsonify({"msg": "Ese nombre de usuario ya está en uso"}), 409
+        return jsonify({"error": "Ese nombre de usuario ya está en uso"}), 409
 
     if User.query.filter_by(email=email).first():
-        return jsonify({"msg": "Ese email ya está registrado"}), 409
+        return jsonify({"error": "Ese email ya está registrado"}), 409
 
     # Encriptar password
     hashed_pw = generate_password_hash(password)
@@ -45,7 +45,7 @@ def login():
     # Verificar el usuario
     user = User.query.filter_by(username=username).first()
     if not user or not check_password_hash(user.password, password):
-        return jsonify({"msg": "Credenciales inválidas"}), 401
+        return jsonify({"error": "Usuario o contraseña incorrectos."}), 401
 
     # Generar el token JWT
     access_token = create_access_token(identity=str(user.id))

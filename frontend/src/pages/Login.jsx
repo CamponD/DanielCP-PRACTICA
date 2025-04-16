@@ -43,7 +43,6 @@ function Login() {
                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 mt-4 rounded-full" type="submit">Iniciar Sesión</button>
             </form>
             <p className="text-red-500">{message}</p>
-            {message && <p className="text-red-500 mt-4">{message}</p>}
         </PageWrapper>
     )
 

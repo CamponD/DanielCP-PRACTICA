@@ -20,18 +20,23 @@ def get_user_projects():
 
 
 # Crear nuevo proyecto
-@project_bp.route('/projects', methods=['POST'])
+@project_bp.route('/projects/new', methods=['POST'])
 @jwt_required()
 def create_project():
     user_id = int(get_jwt_identity())
     data = request.get_json()
     name = data.get("name")
+    description = data.get("description")
 
     if not name:
         return jsonify({"error": "El nombre del proyecto es obligatorio"}), 400
     
+    existing = Project.query.filter_by(name=name).first()
+    if existing:
+        return jsonify({"error": "Ese proyecto ya existe."}), 409
+    
     # Crear el proyecto
-    project = Project(name=name)
+    project = Project(name=name, description=description)
     db.session.add(project)
     db.session.commit()
 
