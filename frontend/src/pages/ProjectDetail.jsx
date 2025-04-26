@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import PageWrapper from "../components/PageWrapper"
 import { useAppContext } from "../context/AppContext"
@@ -6,31 +6,42 @@ import { useAppContext } from "../context/AppContext"
 function ProjectDetail() {
     const { id } = useParams()
     const { projects, getProjects } = useAppContext()
-
     const [project, setProject] = useState(null)
     const [message, setMessage] = useState("")
 
+    const navigate = useNavigate()
+
     // Buscar el proyecto si ya está en contexto
     useEffect(() => {
-        const searchProject = async () => {
-            const projectId = parseInt(id)
+        const projectId = parseInt(id)
 
+        if (isNaN(projectId)) {
+            navigate("/dashboard")
+            return
+        }
+
+        const searchProject = async () => {
             const existing = projects.find(p => p.id === projectId)
+
             if (existing) {
                 setProject(existing)
             } else {
                 // Si no existe, intentar cargar proyectos desde el servidor
-                const allProjects = await getProjects()
+                if (projects.length === 0) {
+                    const allProjects = await getProjects()
 
-                if (allProjects) {
-                    const findProject = allProjects.find(p => p.id === projectId)
-                    if (findProject) {
-                        setProject(findProject)
-                    } else {
-                        setMessage("Proyecto no encontrado.")
+                    if (allProjects) {
+                        const findProject = allProjects.find(p => p.id === projectId)
+                        if (findProject) {
+                            setProject(findProject)
+                        }
                     }
+                } else {
+                    navigate("/dashboard")
                 }
             }
+
+
         }
 
         searchProject()

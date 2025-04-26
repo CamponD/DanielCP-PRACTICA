@@ -110,11 +110,11 @@ export const AppProvider = ({ children }) => {
 
             const data = await res.json()
             setProjects(data)
-            return true
+            return data
 
         } catch (error) {
             logout()
-            return false
+            return null
         }
     }
 
