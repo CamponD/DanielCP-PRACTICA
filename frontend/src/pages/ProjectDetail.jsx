@@ -5,11 +5,29 @@ import { useAppContext } from "../context/AppContext"
 
 function ProjectDetail() {
     const { id } = useParams()
-    const { projects, getProjects } = useAppContext()
+    const { projects, getProjects, deleteProject } = useAppContext()
     const [project, setProject] = useState(null)
-    const [message, setMessage] = useState("")
 
     const navigate = useNavigate()
+    const [deleting, setDeleting] = useState(false)
+
+    const handleDelete = async () => {
+        const confirmed = confirm("¿Seguro que quieres eliminar este proyecto?")
+
+        if (!confirmed) return
+
+        setDeleting(true)
+
+        const result = await deleteProject(project.id)
+
+        setDeleting(false)
+
+        if (result.success) {
+            navigate("/dashboard")
+        } else {
+            alert(result.message || "Error al eliminar el proyecto")
+        }
+    }
 
     // Buscar el proyecto si ya está en contexto
     useEffect(() => {
@@ -40,21 +58,12 @@ function ProjectDetail() {
                     navigate("/dashboard")
                 }
             }
-
-
         }
 
         searchProject()
 
     }, [id, projects, getProjects])
 
-    if (message) {
-        return (
-            <PageWrapper>
-                <p className="text-red-500">{message}</p>
-            </PageWrapper>
-        )
-    }
 
     if (!project) {
         return (
@@ -64,14 +73,13 @@ function ProjectDetail() {
         )
     }
 
-    // Vista del proyecto igual que antes
     return (
         <PageWrapper>
             <div className="max-w-3xl mx-auto py-8">
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <h2 className="text-3xl font-bold mb-2">{project.name}</h2>
-                        {project.description && (
+                        {project.description?.trim() && (
                             <p className="text-gray-700 mb-2">{project.description}</p>
                         )}
                         <p className="text-sm text-gray-500">
@@ -84,8 +92,12 @@ function ProjectDetail() {
                             Editar
                         </button>
                         {project.role === "owner" && (
-                            <button onClick={() => alert("Eliminar")} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
-                                Eliminar
+                            <button
+                                onClick={handleDelete}
+                                disabled={deleting}
+                                className={`bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm ${deleting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {deleting ? "Eliminando..." : "Eliminar"}
                             </button>
                         )}
                         {project.role !== "owner" && (

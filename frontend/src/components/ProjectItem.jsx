@@ -9,7 +9,7 @@ function ProjectItem({ project }) {
             <Link to={`/projects/${project.id}`} className="block hover:opacity-80">
                 <div>
                     <h3 className="text-lg font-semibold">{project.name}</h3>
-                    <p className="text-sm text-gray-600">Rol: {project.role}</p>
+                    <p className="text-sm text-gray-600 text-left">Rol: {project.role}</p>
                 </div>
             </Link>
         </li >

@@ -142,9 +142,32 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+    const deleteProject = async (projectId) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/projects/${projectId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            if (res.ok) {
+                setProjects(prev => prev.filter(p => p.id !== projectId))
+                return { success: true }
+              } else {
+                const data = await res.json()
+                return { success: false, message: data.error || "Error al eliminar" }
+              }
+
+        } catch (error) {
+            return { success: false, message: "Error de conexión con el servidor." }
+        }
+
+    }
+
     return (
         <AppContext.Provider
-            value={{ token, user, projects, register, login, logout, getProjects, createProject }}
+            value={{ token, user, projects, register, login, logout, getProjects, createProject, deleteProject }}
         >
             {children}
         </AppContext.Provider>

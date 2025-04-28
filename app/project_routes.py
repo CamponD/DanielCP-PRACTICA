@@ -49,3 +49,31 @@ def create_project():
         "message": "Proyecto creado con éxito",
         "project": {**project.to_dict(), "role": "owner"}
     }), 201
+
+
+# Eliminar proyecto
+@project_bp.route('/projects/<int:project_id>', methods=['DELETE'])
+@jwt_required()
+def delete_project(project_id):
+    user_id = int(get_jwt_identity())
+
+    # Buscar si el usuario es owner del proyecto
+    owner = Collaborator.query.filter_by(
+        user_id=user_id, project_id=project_id, role='owner'
+    ).first()
+
+    if not owner:
+        return jsonify({"error": "No tienes permiso para eliminar este proyecto"}), 403
+    
+    project = Project.query.get(project_id)
+
+    if not project:
+        return jsonify({"error": "Proyecto no encontrado"}), 404
+
+    try:
+        db.session.delete(project)
+        db.session.commit()
+        return jsonify({"msg": "Proyecto eliminado"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Error al eliminar proyecto"}), 500
